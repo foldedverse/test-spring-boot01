@@ -2,8 +2,8 @@ package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,9 +15,21 @@ public class DemoApplication {
         SpringApplication.run(DemoApplication.class, args);
     }
 
-    @GetMapping("/")
-    public @ResponseBody Response hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new Response(String.format("Hello %s!", name));
+    @PostMapping("/")
+    public @ResponseBody Response hello(@RequestBody Request request) {
+        return new Response(String.format("Hello %s!", request.getName()));
+    }
+
+    static class Request {
+        private String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 
     static class Response {
